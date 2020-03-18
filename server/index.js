@@ -4,6 +4,13 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
 
+// Connect to MongoDB
+console.log('Connection to mongoDb on uri: ' + config.mongo.uri);
+mongoose.connect(config.mongo.uri, config.mongo.options);
+mongoose.connection.on('error', function(err) {
+ console.error('MongoDB connection error: ' + err);
+});
+
 // Parsers for POST data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
