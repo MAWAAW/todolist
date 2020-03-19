@@ -1,7 +1,11 @@
-FROM node:alpine as builder
+# Base image with Node.js
+FROM node:alpine
 
 # Create app directory
 WORKDIR /usr/src/app
+
+#Expose Argument for setting MONGO_HOST
+ARG MONGO_HOST=mongodev
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
@@ -12,8 +16,10 @@ COPY package*.json ./
 RUN npm install
 
 # Bundle app source
-COPY . ./
+COPY . .
 
+# Expose port 8080
 EXPOSE 8080
 
+# Run the npm start command
 CMD [ "npm", "start" ]

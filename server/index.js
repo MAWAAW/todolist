@@ -1,17 +1,16 @@
 const express = require('express');
-const config = require('./config');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+
+// Constants
+const PORT = 8080;
+const HOST = '0.0.0.0';
+
+const MONGO_HOST = process.env.MONGO_HOST ? process.env.MONGO_HOST : 'localhost';
+console.log('MONGO_HOST', MONGO_HOST );
+
+// Express
 const app = express();
-
-// Connect to MongoDB
-console.log('Connection to mongoDb on uri: ' + config.mongo.uri);
-mongoose.connect(config.mongo.uri, config.mongo.options);
-mongoose.connection.on('error', function(err) {
- console.error('MongoDB connection error: ' + err);
-});
-
-// Parsers for POST data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -22,6 +21,33 @@ app.use(function(req, res, next) {
  next()
 })
 
-require('./routes')(app);
+// Connect MongoDB
+mongoose.connect('mongodb+srv://mawaaw:toto@cluster0-q6ika.mongodb.net/test?retryWrites=true&w=majority',
+  { useNewUrlParser: true,
+    useUnifiedTopology: true })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
 
-app.listen(config.port, () => console.log(`Example app listening on ${config.port}!`))
+// MongoDB Taches Schema
+const Tache = mongoose.model('Tache', mongoose.Schema({shortDesc: String}) );
+
+app.get('/taches', (req, res) => {
+    console.log("GETTTTTT");
+    Tache.find()
+        .then(taches => res.status(200).json(taches))
+        .catch(error => res.status(400).json({ error }));
+});
+
+app.post('/taches', (req, res, next) => {
+    delete req.body._id;
+    const tacheToAdd = new Tache({
+        ...req.body
+    });
+    console.log("POSTTT " , tacheToAdd);
+    tacheToAdd.save()
+      .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
+      .catch(error => res.status(400).json({ error }));
+  });
+
+app.listen(PORT, HOST);
+//console.log(`Running on http://${HOST}:${PORT}`);

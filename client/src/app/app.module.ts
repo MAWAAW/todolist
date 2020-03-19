@@ -3,13 +3,13 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { Tache } from './domain/tache';
 import { TacheService } from './service/tache.service';
+import { AllTachesComponent } from './all-taches/all-taches.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    Tache
+    AllTachesComponent
   ],
   imports: [
     BrowserModule,

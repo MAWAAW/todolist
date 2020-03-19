@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Tache } from '../shared/domain/tache';
-import { TacheService } from '../shared/service/tache.service';
+import { Tache } from '../domain/tache';
 import { TacheService } from '../service/tache.service';
 
 @Component({
@@ -18,7 +17,7 @@ export class AllTachesComponent implements OnInit {
   constructor(private tacheService: TacheService) { }
 
   ngOnInit(): void {
-    this.tacheService.listerCollegues().subscribe(taches =>
+    this.tacheService.listerTaches().subscribe(taches =>
       this.taches = taches)
   }
 

@@ -12,9 +12,12 @@ export class AppComponent implements OnInit {
   taches: Tache[] = [];
 
   constructor(private tacheService: TacheService) {
+    console.log("constructor AppComponent");
   }
   ngOnInit(): void {
+    console.log("ngOnInit AppComponent !!!");
     this.tacheService.listerTaches().subscribe(taches => {
+      console.log("taches = ", taches);
       this.taches = taches
     })
   }

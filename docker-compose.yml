@@ -1,0 +1,32 @@
+version: '3.0' # specify docker-compose version
+
+# Define the services/containers to be run
+services:
+ client:
+   build: ./client
+   ports:
+     - "4200:4200"
+   links:
+     - server
+   networks:
+     - mongo-net
+ server:
+   build: ./server
+   ports:
+     - "8080:8080"
+   links:
+     - mongo
+   networks:
+     - mongo-net
+ mongo:
+   image: mongo
+   volumes:
+     - ./data:/data/db
+   ports:
+     - "27017:27017"
+   networks:
+     - mongo-net
+
+networks:
+ mongo-net:
+   driver: bridge
