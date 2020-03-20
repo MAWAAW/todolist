@@ -1,4 +1,10 @@
 <h1>ToDoList</h1>
-<div *ngFor="let tache of taches">
-  <h2>{{tache.shortDesc}}</h2>
-</div>
+<ul *ngFor="let tache of taches; let i = index">
+  <li>Tache numero {{i+1}}</li>
+  <ul>
+    <li>{{tache.shortDesc}}</li>
+    <li>{{tache.longDesc}}</li>
+    <li>{{tache.dateEcheance | date:'shortDate'}}</li>
+    <li>{{tache.etat}}</li>
+  </ul>
+</ul>

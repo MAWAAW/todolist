@@ -6,9 +6,6 @@ const bodyParser = require('body-parser');
 const PORT = 8080;
 const HOST = '0.0.0.0';
 
-const MONGO_HOST = process.env.MONGO_HOST ? process.env.MONGO_HOST : 'localhost';
-console.log('MONGO_HOST', MONGO_HOST );
-
 // Express
 const app = express();
 app.use(bodyParser.json());
@@ -32,6 +29,8 @@ mongoose.connect('mongodb+srv://mawaaw:toto@cluster0-q6ika.mongodb.net/test?retr
 const TacheSchema = mongoose.Schema({
     shortDesc: { type: String, required: true },
     longDesc: { type: String, required: true },
+    dateEcheance: { type: Date, required: true },
+    etat: { type: String, required: true },
   });
 
 const Tache = mongoose.model('Tache', TacheSchema);
@@ -49,11 +48,9 @@ app.get('/taches/:id', (req, res, next) => {
   });
 
 app.post('/taches', (req, res, next) => {
-    console.log(">>>>> " , req.body.shortDesc , ", " , req.body.longDesc);
     const tacheToAdd = new Tache({
         ...req.body
     });
-    console.log("POSTTT " , tacheToAdd);
     tacheToAdd.save()
       .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
       .catch(error => res.status(400).json({ error }));

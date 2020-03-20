@@ -10,9 +10,6 @@ import { TacheService } from '../service/tache.service';
 export class AllTachesComponent implements OnInit {
 
   taches: Tache[] = [];
-  limit: number;
-  tache: Tache;
-  filter: string;
 
   constructor(private tacheService: TacheService) { }
 
