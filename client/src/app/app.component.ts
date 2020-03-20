@@ -17,8 +17,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     console.log("ngOnInit AppComponent !!!");
     this.tacheService.listerTaches().subscribe(taches => {
-      console.log("taches = ", taches);
-      this.taches = taches
+      console.log("type of taches = ", typeof(taches))
+      this.taches = taches;
     })
   }
 }

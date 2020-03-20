@@ -14,16 +14,20 @@ services:
    build: ./server
    ports:
      - "8080:8080"
-   links:
+   environment:
+     - MONGO_URL=mongodb://admin:admin@mymongodb:27017/mydata?authSource=admin
+   depends_on:
      - mongo
    networks:
      - mongo-net
  mongo:
-   image: mongo
-   volumes:
-     - ./data:/data/db
+   image: mongo:latest
+   container_name: "mongo"
    ports:
      - "27017:27017"
+   volumes:
+     - ~/mongodata:/data/db
+   command: mongod --auth
    networks:
      - mongo-net
 
